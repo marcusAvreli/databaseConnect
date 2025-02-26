@@ -13,6 +13,7 @@ module databaseConnect {
 		requires java.sql;
 		requires java.naming;
 		requires java.desktop;
+		requires java.xml;
 	  exports databaseConnect.api.persistence.db;
 		
 	
