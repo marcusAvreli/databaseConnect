@@ -1,6 +1,6 @@
 package databaseConnect.api;
 
-import com.RMT2Exception;
+import databaseConnect.com.RMT2Exception;
 
 /**
  * This exception is thrown when the construction or deconstruction of query

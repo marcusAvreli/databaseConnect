@@ -9,7 +9,7 @@ import databaseConnect.api.persistence.db.DatabaseConnectionBean;
 import databaseConnect.api.persistence.db.DatabaseConnectionFactory;
 import databaseConnect.api.persistence.db.orm.DataSourceFactory;
 import databaseConnect.api.pool.DatabaseConnectionPool;
-
+import com.mysql.cj.*;
 public class Application {
 	public static final Logger logger = LogManager.getLogger(Application.class);
 	private static String workingDirPathName = System.getProperty("user.dir");
@@ -22,6 +22,7 @@ public class Application {
 	        ConnectionProvider dbProvider = f.getEnvConnectionProviderApi(null);
 	        DatabaseConnectionPool pool = DatabaseConnectionPool.getInstance();
 	        pool.addConnectionApi(dbProvider);
+	        System.setProperty("databaseConnect", "java:comp/env");
 	        logger.info("connection pool valid:"+pool.isConnectionPoolValid());
 	        // Retrieve the item so it can be deleted!
 	        DatabaseConnectionBean dbConn = DatabaseConnectionPool

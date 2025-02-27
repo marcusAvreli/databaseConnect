@@ -7,15 +7,15 @@ import java.util.Hashtable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.NotFoundException;
-import com.RMT2BaseBean;
-import com.SystemException;
 import databaseConnect.api.constants.RMT2SystemExceptionConst;
 import databaseConnect.api.persistence.db.DbSqlConst;
 
 
 import databaseConnect.api.persistence.db.orm.RdbmsDaoImpl;
 import databaseConnect.api.util.RMT2String;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.RMT2BaseBean;
+import databaseConnect.com.SystemException;
 
 /**
  * This class assists the DataSourceApi implementation to track and map database

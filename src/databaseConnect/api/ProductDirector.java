@@ -1,7 +1,7 @@
 package databaseConnect.api;
 
-import com.RMT2BaseBean;
-import com.SystemException;
+import databaseConnect.com.RMT2BaseBean;
+import databaseConnect.com.SystemException;
 
 /**
  * 

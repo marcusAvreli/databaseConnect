@@ -3,9 +3,9 @@ package databaseConnect.api.security;
 import java.util.Hashtable;
 import java.util.Map;
 
-import com.RMT2BaseBean;
-import com.SystemException;
 import databaseConnect.api.constants.RMT2SystemExceptionConst;
+import databaseConnect.com.RMT2BaseBean;
+import databaseConnect.com.SystemException;
 
 /**
  * Object used to store key data and selectin criteria pertaining to data

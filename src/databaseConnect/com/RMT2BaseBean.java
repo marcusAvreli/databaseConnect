@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 import java.io.Serializable;
 import java.io.ObjectOutput;
@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 import java.util.Date;
 
-import com.RMT2Base;
+import databaseConnect.com.RMT2Base;
 
 
 /**

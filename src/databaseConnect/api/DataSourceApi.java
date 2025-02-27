@@ -3,10 +3,9 @@ package databaseConnect.api;
 import java.sql.ResultSet;
 import java.util.List;
 
-import com.NotFoundException;
-import com.SystemException;
-
 import databaseConnect.api.persistence.DatabaseException;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.SystemException;
 
 /**
  * This interface contain methods intended to provide a communication link

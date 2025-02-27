@@ -15,9 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.NotFoundException;
-import com.RMT2Base;
-import com.SystemException;
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
 //import com.api.config.AppPropertyPool;
@@ -27,6 +24,9 @@ import databaseConnect.api.persistence.DatabaseException;
 //import com.api.persistence.db.orm.bean.TableUsageBean;
 import databaseConnect.api.util.RMT2BeanUtility;
 import databaseConnect.api.util.RMT2Utility;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 /**
  * Abstract class that provides methods for converting data from one source to

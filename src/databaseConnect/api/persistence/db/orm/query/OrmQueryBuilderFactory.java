@@ -1,8 +1,8 @@
 package databaseConnect.api.persistence.db.orm.query;
 
-import com.RMT2Base;
-import com.SystemException;
 import databaseConnect.api.persistence.db.orm.OrmBean;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 /**
  * Factory for creating various ORM based query builder objects.

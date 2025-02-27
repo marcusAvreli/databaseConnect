@@ -4,10 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.SystemException;
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.persistence.db.orm.bean.ObjectMapperAttrib;
+import databaseConnect.com.SystemException;
 
 /**
  * Abstract query builder class that provides common functionality for all ORM

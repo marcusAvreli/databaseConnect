@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.SystemException;
-
 import databaseConnect.Application;
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
@@ -17,6 +15,7 @@ import databaseConnect.api.ProductBuilderException;
 import databaseConnect.api.persistence.db.DbSqlConst;
 import databaseConnect.api.persistence.db.orm.OrmBean;
 import databaseConnect.api.persistence.db.orm.bean.DataSourceColumn;
+import databaseConnect.com.SystemException;
 
 /**
  * Implements the {@link com.api.db.query.CriteriaBuilder CriteriaBuilder}

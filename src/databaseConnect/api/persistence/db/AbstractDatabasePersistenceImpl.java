@@ -9,10 +9,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-import com.SystemException;
 //import RMT2SystemExceptionConst
 import databaseConnect.api.persistence.DatabaseException;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 
 

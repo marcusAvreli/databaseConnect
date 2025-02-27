@@ -5,13 +5,12 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-
 import databaseConnect.Context;
 import databaseConnect.api.CannotConnectException;
 import databaseConnect.api.ConnectionProvider;
 import databaseConnect.api.persistence.DatabaseException;
 import databaseConnect.api.util.RMT2BeanUtility;
+import databaseConnect.com.RMT2Base;
 
 public class DatabaseConnectionFactory extends RMT2Base {
 

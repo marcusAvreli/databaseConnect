@@ -5,11 +5,8 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-//import com.api.config.old.ConfigAttributes;
-//import com.api.config.old.ResourceConfigurator;
-
 import databaseConnect.Application;
+import databaseConnect.com.RMT2Base;
 
 /**
  * Manages the application's properties.

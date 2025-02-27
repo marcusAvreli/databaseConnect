@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-import com.SystemException;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 //import com.api.config.PropertyFileSystemResourceConfigImpl;
 

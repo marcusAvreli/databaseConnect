@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 public class InvalidDataException extends RMT2RuntimeException {
 

@@ -18,8 +18,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.NotFoundException;
-import com.SystemException;
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.Product;
@@ -55,6 +53,8 @@ import databaseConnect.api.security.RMT2TagQueryBean;
 import databaseConnect.api.util.RMT2String;
 ///import com.api.xml.parsers.datasource.RMT2OrmDatasourceParser;
 //import com.api.xml.parsers.datasource.RMT2OrmDatasourceParserFactory;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.SystemException;
 
 /**
  * Implements the DataSourceApi interface which provides methods that interface

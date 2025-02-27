@@ -2,11 +2,10 @@ package databaseConnect.api;
 
 import java.sql.ResultSet;
 
-import com.NotFoundException;
-import com.SystemException;
-
 import databaseConnect.api.persistence.DatabaseException;
 import databaseConnect.api.persistence.db.orm.bean.ObjectMapperAttrib;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.SystemException;
 
 
 /**

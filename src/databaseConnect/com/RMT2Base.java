@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 import java.util.Hashtable;
 

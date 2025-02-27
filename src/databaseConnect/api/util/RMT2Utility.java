@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
-import com.InvalidDataException;
-import com.SystemException;
 //import com.api.constants.GeneralConst;
 import databaseConnect.api.persistence.DatabaseException;
+import databaseConnect.com.InvalidDataException;
+import databaseConnect.com.SystemException;
 
 /**
  * Class contains a collection general purpose utilities.

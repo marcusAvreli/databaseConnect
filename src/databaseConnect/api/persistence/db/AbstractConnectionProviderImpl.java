@@ -5,11 +5,12 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-
-
+import databaseConnect.Context;
 import databaseConnect.api.ConnectionProvider;
+
 import databaseConnect.api.persistence.DatabaseException;
+import databaseConnect.api.util.RMT2String;
+import databaseConnect.com.RMT2Base;
 
 public abstract class AbstractConnectionProviderImpl extends RMT2Base implements ConnectionProvider {
 	public static final Logger logger = LogManager.getLogger(AbstractConnectionProviderImpl.class);
@@ -58,16 +59,40 @@ public abstract class AbstractConnectionProviderImpl extends RMT2Base implements
 	     *             configuration.
 	     */
 	    protected String getEnvDbResourceName() {
-	        // Identify either the general purpose or application specific
+	    	 // Identify either the general purpose or application specific
 	        // DB-ORM-Config file.
 	        String ormConfigFile = null;
 	        if (contextName == null) {
-	            ormConfigFile ="ormConfigFile.txt";
+	            ormConfigFile = DatabaseConnectionConstants.CONNECTION_CONFIG;
 	        }
-	       
+	        else {
+	            ormConfigFile = RMT2String.replace(
+	                    DatabaseConnectionConstants.API_CONNECTION_CONFIG,
+	                    contextName,
+	                    DatabaseConnectionConstants.API_CONNECTION_PLACEHOLDER);
+	        }
+
 	        // Load DB-ORM-Config file
-	       
-	        String resourceName = "ormConfigResourceName";
+	        try {
+	            this.config = Context.getInstance().initSettings(ormConfigFile);
+	        } catch (Exception e) {
+	            this.msg = "Error loading DB-ORM-Config file: " + ormConfigFile;
+	            logger.fatal(this.msg);
+	            throw new DatabaseException(this.msg, e);
+	        }
+
+	        // Get the datasource resouce name based on platform environment
+	        String env = "dev";//System.getProperty(ConfigConstants.PROPNAME_ENV);
+	        /*if (env == null) {
+	            this.msg = "Error obtaining DB ORM ResourceName Key.  Unable to determine the environment of application (Test, Production, or Development)";
+	            logger.fatal(this.msg);
+	            throw new DatabaseException(this.msg);
+	        }
+	        */
+	        String key = env.toLowerCase() + "." + RESOURCE_KEY_NAME;
+	        logger.info("The selected DB ORM Resource Name Key is, " + key);
+	        String resourceName = this.config.getProperty(key);
+	        logger.info("The selected DB ORM Resource Name, " + resourceName);
 	        return resourceName;
 	    }
 

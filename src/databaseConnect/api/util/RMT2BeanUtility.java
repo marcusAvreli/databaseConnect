@@ -14,8 +14,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
-import com.NotFoundException;
-import com.SystemException;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.SystemException;
 
 public class RMT2BeanUtility {
     private Object bean;

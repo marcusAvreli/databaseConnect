@@ -14,7 +14,9 @@ module databaseConnect {
 		requires java.naming;
 		requires java.desktop;
 		requires java.xml;
-	  exports databaseConnect.api.persistence.db;
+		requires java.activation;
+		requires mysql.connector.j;
+		exports databaseConnect.api.persistence.db;
 		
 	
 }

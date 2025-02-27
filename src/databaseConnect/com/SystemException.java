@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 public class SystemException extends RMT2RuntimeException {
     private static final long serialVersionUID = 7243915887555388092L;

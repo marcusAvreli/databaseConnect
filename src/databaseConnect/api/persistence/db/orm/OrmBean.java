@@ -9,12 +9,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.RMT2Base;
-import com.SystemException;
-
 import databaseConnect.api.util.RMT2BeanUtility;
 
 import databaseConnect.api.util.RMT2Utility;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 /**
  * Abstract class used for Object Relational Mapping and database persistence.

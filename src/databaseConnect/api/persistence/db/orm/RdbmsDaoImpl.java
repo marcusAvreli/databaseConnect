@@ -12,9 +12,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.NotFoundException;
-import com.SystemException;
-
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.constants.RMT2SystemExceptionConst;
@@ -22,6 +19,8 @@ import databaseConnect.api.persistence.DatabaseException;
 import databaseConnect.api.persistence.db.DatabaseConnectionBean;
 import databaseConnect.api.persistence.db.DbSqlConst;
 import databaseConnect.api.security.RMT2TagQueryBean;
+import databaseConnect.com.NotFoundException;
+import databaseConnect.com.SystemException;
 
 
 /**

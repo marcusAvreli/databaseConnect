@@ -1,6 +1,6 @@
 package databaseConnect.api.persistence;
 
-import com.RMT2RuntimeException;
+import databaseConnect.com.RMT2RuntimeException;
 
 public class DatabaseException extends RMT2RuntimeException {
     private static final long serialVersionUID = -6755175657939760814L;

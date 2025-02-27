@@ -11,11 +11,10 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.SystemException;
-
 import databaseConnect.api.CannotConnectException;
 import databaseConnect.api.persistence.CannotReadManagerConfigurationException;
 import databaseConnect.api.persistence.DatabaseException;
+import databaseConnect.com.SystemException;
 
 public class WebContextConnectionProviderImpl extends AbstractConnectionProviderImpl {
 
@@ -71,35 +70,44 @@ try {
 */
 private synchronized Connection createConnection()
     throws CannotConnectException, SystemException {
-// Get specific JNDI Datasource name which is mapped to "DbResourceName"
-String resourceName = this.getEnvDbResourceName();
-Connection con = null;
-try {
-    // Obtain JDBC Connection via DataSource
-    Context ctx;
-    ctx = new InitialContext();
-    Context env = (Context) ctx.lookup("java:comp/env");
-    DataSource jdbcDs = (DataSource) env.lookup(resourceName);
-    if (jdbcDs == null) {
-        this.msg = "JNDI lookup return invalid JDBC DataSource reference";
-        throw new CannotConnectException(this.msg);
-    }
-    con = jdbcDs.getConnection();
-    if (con == null) {
-        this.msg = "Unable to obtain JDBC connection via DataSource JNDI configuration";
-        throw new CannotConnectException(this.msg);
-    }
-    // IS-41: Turn of the auto commit feature for every connection
-    // obtained.
-    con.setAutoCommit(false);
-    return con;
-} catch (SQLException e) {
-    this.msg = "Database Server is down! - " + e.getMessage();
-    throw new CannotConnectException(this.msg);
-} catch (NamingException e) {
-    this.msg = e.getMessage();
-    throw new SystemException(this.msg);
-}
+	// Get specific JNDI Datasource name which is mapped to "DbResourceName"
+	String resourceName = this.getEnvDbResourceName();
+	logger.info("resourceName:"+resourceName);
+	Connection con = null;
+	try {
+	    // Obtain JDBC Connection via DataSource
+	    Context ctx;
+	    logger.info("checkpost_1");
+	    ctx = new InitialContext();
+	    logger.info("checkpost_2");
+	    Context env = (Context) ctx.lookup("java:comp/env");
+	    logger.info("checkpost_3");
+	    DataSource jdbcDs = (DataSource) env.lookup(resourceName);
+	    logger.info("checkpost_4");
+	    
+	    if (jdbcDs == null) {
+	        this.msg = "JNDI lookup return invalid JDBC DataSource reference";
+	        throw new CannotConnectException(this.msg);
+	    }
+	    con = jdbcDs.getConnection();
+	    if (con == null) {
+	        this.msg = "Unable to obtain JDBC connection via DataSource JNDI configuration";
+	        throw new CannotConnectException(this.msg);
+	    }
+	    // IS-41: Turn of the auto commit feature for every connection
+	    // obtained.
+	    logger.info("checkpost_5");
+	    con.setAutoCommit(false);
+	    return con;
+	} catch (SQLException e) {
+		logger.info("checkpost_6");
+	    this.msg = "Database Server is down! - " + e.getMessage();
+	    throw new CannotConnectException(this.msg);
+	} catch (NamingException e) {
+		logger.info("checkpost_7");
+	    this.msg = e.getMessage();
+	    throw new SystemException(this.msg);
+	}
 }
 
 } // End of Class

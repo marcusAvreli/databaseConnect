@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 public class NotFoundException extends RMT2RuntimeException {
     private static final long serialVersionUID = 1441957717014777177L;

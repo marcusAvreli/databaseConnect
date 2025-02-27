@@ -1,4 +1,4 @@
-package com;
+package databaseConnect.com;
 
 /**
  * This class is designed to capture, house, and track data items that pertain

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.SystemException;
 import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.Product;
 import databaseConnect.api.ProductBuilder;
@@ -16,6 +15,7 @@ import databaseConnect.api.ProductDirector;
 import databaseConnect.api.persistence.db.orm.OrmBean;
 import databaseConnect.api.persistence.db.orm.bean.DataSourceColumn;
 import databaseConnect.api.persistence.db.orm.bean.TableUsageBean;
+import databaseConnect.com.SystemException;
 
 /**
  * This class provides complex processes to construct and deconstruct SQL update

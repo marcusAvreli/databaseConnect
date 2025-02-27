@@ -6,13 +6,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2Base;
-import com.SystemException;
 import databaseConnect.api.ConnectionProvider;
 
 
 import databaseConnect.api.persistence.db.AbstractConnectionProviderImpl;
 import databaseConnect.api.persistence.db.DatabaseConnectionBean;
+import databaseConnect.com.RMT2Base;
+import databaseConnect.com.SystemException;
 
 /**
  * This class provides the basic method implementations to setup and manage a

@@ -1,7 +1,7 @@
 package databaseConnect.api.persistence.db.orm.bean;
 
-import com.RMT2BaseBean;
-import com.SystemException;
+import databaseConnect.com.RMT2BaseBean;
+import databaseConnect.com.SystemException;
 
 /**
  * This entity bean class serves as a conduit between the implementation of the

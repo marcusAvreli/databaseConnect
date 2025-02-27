@@ -5,11 +5,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.RMT2BaseBean;
-import com.SystemException;
-
 import databaseConnect.Application;
 import databaseConnect.api.Product;
+import databaseConnect.com.RMT2BaseBean;
+import databaseConnect.com.SystemException;
 
 /**
  * Abstract class that provides basic functionality for building a
