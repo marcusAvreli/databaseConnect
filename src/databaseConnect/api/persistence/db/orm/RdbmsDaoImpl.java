@@ -20,6 +20,8 @@ import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.constants.RMT2SystemExceptionConst;
 import databaseConnect.api.persistence.DatabaseException;
 import databaseConnect.api.persistence.db.DatabaseConnectionBean;
+import databaseConnect.api.persistence.db.DbSqlConst;
+import databaseConnect.api.security.RMT2TagQueryBean;
 
 
 /**
@@ -38,7 +40,7 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
 
     private int resultType;
 
-    private static final Logger logger = LogManager.getLogger(RdbmsDaoImpl.class);
+    private static  Logger logger = LogManager.getLogger(RdbmsDaoImpl.class);
 
     private String dsn;
     
@@ -334,20 +336,7 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
 
         // Get select statement object and apply row limiting clauses, if
         // applicable
-        ObjectMapperAttrib dsAttr = this.getDataSourceAttib();
-        Hashtable selectStmt = dsAttr.getSelectStatement();
-
-        // Test the validity of "ormBean". Could be null if the source is JSP
-        // taglib.
-        if (this.ormBean != null) {
-            if (this.ormBean.getRowLimitClause() != null) {
-                Integer ndx = new Integer(DbSqlConst.SELECT_KEY);
-                String selectList = (String) selectStmt.get(ndx);
-                selectList = this.ormBean.getRowLimitClause() + "  "
-                        + selectList;
-                selectStmt.put(ndx, selectList);
-            }
-        }
+       
 
         // TODO: In the future, replace call by moving super class logic here...
         sql = super.assembleQuery();
@@ -438,60 +427,7 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
         // Ensure that datasource is set
 
         try {
-            // String dataSourceView = pakageName + "." + viewName;
-            // dataSourceView = dataSourceView.replaceAll("\\.", "/") + ".xml";
-            String dataSourceView = this.getDataSourcePath(ormBean);
-            this.setDataSourceName(dataSourceView);
-            DaoApi dao = this;
-            // Synchronize DAO with the ORM bean
-            DataSourceConverter.packageDSO(dao, ormBean);
-            // // Get view and class names and set to this object
-            // this.setBaseClass(className);
-            // this.setBaseView(viewName);
-
-            // Get selection and order criteria
-            try {
-                // Build where clause
-                ProductBuilder selectionBuilder = OrmQueryBuilderFactory
-                        .getCriteriaQuery(this, ormBean);
-                Product sqlObj = ProductDirector.construct(selectionBuilder);
-                where = sqlObj.toString();
-
-                // Build order by clause
-                ProductBuilder orderBuilder = OrmQueryBuilderFactory
-                        .getOrderQuery(this, ormBean);
-                sqlObj = ProductDirector.construct(orderBuilder);
-                orderBy = sqlObj.toString();
-
-            } catch (ProductBuilderException e) {
-                throw new SystemException(e);
-            }
-
-            // Call find method.
-            if (ormBean.getResultsetType() == OrmBean.RESULTSET_TYPE_XML) {
-                List list = this.findData(where, orderBy);
-                String xml = DataSourceConverter.marshallOrmBean(
-                        this.connector, list);
-
-                // Determine if instructed to serialize XML to file. If file
-                // name turns
-                // out to be null then seiralization will not take place.
-                String filename = null;
-                String beanXmlFilename = ormBean.getDataSourceRoot() + ".xml";
-                if (ormBean.isSerializeXml()) {
-                    filename = (ormBean.getFileName() == null ? beanXmlFilename
-                            : ormBean.getFileName());
-                    RMT2File.serializeText(xml, filename);
-                }
-                results = new Object[1];
-                results[0] = xml;
-            }
-            else {
-                this.baseView = dataSourceView;
-                List list = this.findData(where, orderBy);
-                // Convert results to Object[].
-                results = list.toArray();
-            }
+          
             return results;
         } catch (SystemException e) {
             throw new DatabaseException(
@@ -552,14 +488,8 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
             DataSourceConverter.packageDSO(dso, ormBean);
 
             // Build insert statement.
-            try {
-                ProductBuilder builder = OrmQueryBuilderFactory.getInsertQuery(
-                        this, ormBean, autoKey);
-                Product sqlObj = ProductDirector.construct(builder);
-                sql = sqlObj.toString();
-            } catch (ProductBuilderException e) {
-                throw new DatabaseException(e);
-            }
+           
+              
 
             logger.log(Level.INFO, "Exceuting Insert SQL: " + sql);
             rc = this.executeUpdate(sql, autoKey);
@@ -605,15 +535,7 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
             DataSourceConverter.packageDSO(dso, ormBean);
 
             // Build update statement
-            try {
-                ProductBuilder builder = OrmQueryBuilderFactory.getUpdateQuery(
-                        this, ormBean);
-                Product sqlObj = ProductDirector.construct(builder);
-                sql = sqlObj.toString();
-            } catch (ProductBuilderException e) {
-                throw new DatabaseException(e);
-            }
-
+           
             logger.log(Level.INFO, "Exceuting Update SQL: " + sql);
             rc = this.executeUpdate(sql);
             return rc;
@@ -658,14 +580,8 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
             DataSourceConverter.packageDSO(dso, ormBean);
 
             // Build delete statement
-            try {
-                ProductBuilder builder = OrmQueryBuilderFactory.getDeleteQuery(
-                        this, ormBean);
-                Product sqlObj = ProductDirector.construct(builder);
-                sql = sqlObj.toString();
-            } catch (ProductBuilderException e) {
-                throw new DatabaseException(e);
-            }
+           
+             
 
             logger.log(Level.INFO, "Exceuting SQL: " + sql);
             rc = this.executeUpdate(sql);
@@ -721,41 +637,7 @@ public class RdbmsDaoImpl extends RdbmsDataSourceImpl implements DaoApi,
         // Build XML Root Tags. Try to create tags with datasources assoicated
         // table name.
         // Otherwise, use default tag value, "dataitem".
-        String rootTagStart = DataSourceConst.XML_TAG_START;
-        String rootTagEnd = DataSourceConst.XML_TAG_END;
-        ObjectMapperAttrib attrib = this.getDataSourceAttib();
-        Hashtable tables = attrib.getTables();
-        if (tables != null) {
-            try {
-                TableUsageBean tableBean = (TableUsageBean) tables.elements()
-                        .nextElement();
-                String viewname = tableBean.getDbName();
-                viewname = RMT2Utility.formatDsName(viewname);
-                rootTagStart = "<" + viewname + ">";
-                rootTagEnd = "</" + viewname + ">";
-            } catch (NoSuchElementException e) {
-                logger.log(Level.WARN,
-                        "Table name could not be matched with ORM Bean, "
-                                + this.getBaseClass());
-            }
-        }
-
-        try {
-            while (this.nextRow()) {
-                xml.append(this.getRs().getString(1));
-            }
-            data = xml.toString();
-            data = rootTagStart + data + rootTagEnd;
-            if (_xmlFileName != null) {
-                RMT2File.serializeText(data, _xmlFileName);
-            }
-            return data;
-        } catch (Exception e) {
-
-            throw new SystemException(
-                    "Problem retrieving a XML resultset directly from the database via the ORM bean",
-                    e);
-        }
+      return "findXmlData";
     }
 
     /**

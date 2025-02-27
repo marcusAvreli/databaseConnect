@@ -14,7 +14,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
-
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,28 +22,37 @@ import com.NotFoundException;
 import com.SystemException;
 import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
+import databaseConnect.api.Product;
+import databaseConnect.api.ProductBuilder;
+import databaseConnect.api.ProductBuilderException;
+import databaseConnect.api.ProductDirector;
+import databaseConnect.api.config.AppPropertyPool;
+import databaseConnect.api.config.ConfigConstants;
 //import com.api.Product;
 //import com.api.ProductBuilder;
 //import com.api.ProductBuilderException;
 //import com.api.ProductDirector;
 //import com.api.config.AppPropertyPool;
 //import com.api.config.ConfigConstants;
-//import com.api.constants.RMT2SystemExceptionConst;
+import databaseConnect.api.constants.RMT2SystemExceptionConst;
 import databaseConnect.api.persistence.DatabaseException;
 import databaseConnect.api.persistence.db.AbstractDatabasePersistenceImpl;
 //import com.api.persistence.db.AbstractDatabasePersistenceImpl;
 import databaseConnect.api.persistence.db.DatabaseConnectionBean;
-//import com.api.persistence.db.DbSqlConst;
+import databaseConnect.api.persistence.db.DbSqlConst;
+import databaseConnect.api.persistence.db.orm.bean.DataSourceColumn;
 //import com.api.persistence.db.DynamicSqlApi;
 //import com.api.persistence.db.DynamicSqlFactory;
 //import com.api.persistence.db.orm.bean.DataSourceColumn;
-//import com.api.persistence.db.orm.bean.ObjectMapperAttrib;
-//import com.api.persistence.db.orm.bean.TableUsageBean;
+import databaseConnect.api.persistence.db.orm.bean.ObjectMapperAttrib;
+import databaseConnect.api.persistence.db.orm.bean.TableUsageBean;
+import databaseConnect.api.persistence.db.orm.query.OrmQueryBuilderFactory;
+import databaseConnect.api.security.RMT2TagQueryBean;
 //import com.api.persistence.db.orm.query.OrmQueryBuilderFactory;
 //import com.api.security.RMT2TagQueryBean;
 //import com.api.util.RMT2Date;
 //import com.api.util.RMT2Money;
-//import com.api.util.RMT2String;
+import databaseConnect.api.util.RMT2String;
 ///import com.api.xml.parsers.datasource.RMT2OrmDatasourceParser;
 //import com.api.xml.parsers.datasource.RMT2OrmDatasourceParserFactory;
 
@@ -94,7 +103,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
      */
     protected boolean rsUpdatable;
 
-    protected DynamicSqlApi dynaApi;
+  //  protected DynamicSqlApi dynaApi;
 
     /**
      * Default constructor.
@@ -127,7 +136,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
     public RdbmsDataSourceImpl(DatabaseConnectionBean dbConn)
             throws DatabaseException, SystemException {
         super(dbConn);
-        this.dynaApi = DynamicSqlFactory.create(dbConn);
+      //  this.dynaApi = DynamicSqlFactory.create(dbConn);
         return;
     }
 
@@ -235,9 +244,11 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
         if (this.datasource != null) {
             this.datasource.close();
         }
+        /*
         if (this.dynaApi != null) {
             this.dynaApi.close();
         }
+        */
         this.datasource = null;
         this.sql = null;
         this.selectSql = null;
@@ -268,10 +279,11 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
     protected int parseXmlDataSource(RMT2TagQueryBean _queryData)
             throws NotFoundException, DatabaseException, SystemException {
         logger.log(Level.DEBUG, "Begin to parse XML document");
-        RMT2OrmDatasourceParserFactory f = RMT2OrmDatasourceParserFactory
+        /*RMT2OrmDatasourceParserFactory f = RMT2OrmDatasourceParserFactory
                 .getNewInstance();
         RMT2OrmDatasourceParser api = f.getSax1OrmDatasourceParser(_queryData);
         this.datasource = api.parseDocument();
+        */
         return 1;
     }
 
@@ -286,6 +298,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
      */
     protected int parseXmlDataSource(String dataSourceName)
             throws NotFoundException, DatabaseException, SystemException {
+    	/*
         RMT2OrmDatasourceParserFactory f = RMT2OrmDatasourceParserFactory
                 .getNewInstance();
         RMT2OrmDatasourceParser api = f
@@ -293,6 +306,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
         this.datasource = api.parseDocument();
 
         this.baseView = dataSourceName;
+        */
         return 1;
     }
 
@@ -1327,7 +1341,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
         }
 
         // Try to format value and return to caller
-        try {
+       // try {
             switch (dataType.intValue()) {
                 case Types.INTEGER:
                 case Types.TINYINT:
@@ -1338,12 +1352,11 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                 case Types.NUMERIC:
                 case Types.DOUBLE:
                 case Types.DECIMAL:
-                    value = RMT2Money.formatNumber(new Double(value), _format);
+                   
                     break;
 
                 case Types.DATE:
-                    value = RMT2Date.formatDate(this.rs.getDate(dbName),
-                            _format);
+                  
                     break;
 
                 case Types.TIME:
@@ -1354,12 +1367,13 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
             } // end switch
 
             return value;
-        } // end try
+        /*} // end try
         catch (SQLException e) {
             throw new DatabaseException(
                     "Formatting error occurred for referenced ORM Datasource property"
                             + _property + ".  Format: " + _format, e);
         }
+        */
     }
 
     public final Object getColumnBinaryValue(String property)
@@ -1436,16 +1450,12 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                 case Types.TINYINT:
                 case Types.SMALLINT:
                     // int iValue = new Integer(value.toString()).intValue();
-                    int iValue = RMT2Money.stringToNumber(value.toString())
-                            .intValue();
-                    this.rs.updateInt(dbName, iValue);
+                  
                     break;
 
                 case Types.BIGINT:
                     // long lValue = new Long(value.toString()).longValue();
-                    long lValue = RMT2Money.stringToNumber(value.toString())
-                            .longValue();
-                    this.rs.updateLong(dbName, lValue);
+                   
                     break;
 
                 case Types.CHAR:
@@ -1468,9 +1478,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                 case Types.REAL:
                 case Types.FLOAT:
                     // float fValue = new Float(value.toString()).floatValue();
-                    float fValue = RMT2Money.stringToNumber(value.toString())
-                            .floatValue();
-                    this.rs.updateFloat(dbName, fValue);
+                   
                     break;
 
                 case Types.NUMERIC:
@@ -1478,19 +1486,13 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                 case Types.DECIMAL:
                     // double dValue = new
                     // Double(value.toString()).doubleValue();
-                    double dValue = RMT2Money.stringToNumber(value.toString())
-                            .doubleValue();
-                    this.rs.updateDouble(dbName, dValue);
+                  
                     break;
 
                 case Types.DATE:
                     java.util.Date date = null;
                     if (value instanceof String) {
-                        try {
-                            date = RMT2Date.stringToDate(value.toString());
-                        } catch (SystemException e) {
-                            throw e;
-                        }
+                       
                     }
                     else {
                         if (value instanceof java.util.Date) {
@@ -1515,13 +1517,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                 case Types.TIMESTAMP:
                     java.util.Date datetime = null;
                     if (value instanceof String) {
-                        try {
-                            datetime = RMT2Date.stringToDate(value.toString());
-                        } catch (SystemException e) {
-                            this.msg = "Unable to set DAO Column value for property,  "
-                                    + _property;
-                            throw new SystemException(this.msg, e);
-                        }
+                       
                     }
                     else {
                         if (value instanceof java.util.Date) {
@@ -1605,8 +1601,7 @@ public class RdbmsDataSourceImpl extends AbstractDatabasePersistenceImpl
                         String dt = null;
                         // Be able to handle values of Date and String
                         if (_value instanceof Date) {
-                            dt = RMT2Date.formatDate((java.util.Date) _value,
-                                    "MM/dd/yyyy HH:mm:ss");
+                            dt = "fsdfsdf";
                         }
                         else if (_value instanceof String) {
                             dt = _value.toString();

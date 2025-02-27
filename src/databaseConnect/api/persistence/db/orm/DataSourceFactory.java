@@ -8,6 +8,7 @@ import databaseConnect.api.DaoApi;
 import databaseConnect.api.DataSourceApi;
 import databaseConnect.api.persistence.db.DatabaseConnectionBean;
 import databaseConnect.api.pool.DatabaseConnectionPool;
+import databaseConnect.api.security.RMT2TagQueryBean;
 
 /**
  * Factory designed to create new instances of DataSourceApi and DaoApi objects.
@@ -136,7 +137,8 @@ public class DataSourceFactory extends DataSourceConverter {
             RMT2TagQueryBean _queryData) {
         try {
             logger.log(Level.DEBUG, "Begin to Create DAO object");
-        
+            DaoApi api = new RdbmsDaoImpl(_dbo.getNativeConnection(), null,
+                    _queryData);
             return api;
         } catch (Exception e) {
             return null;
